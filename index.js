@@ -145,12 +145,13 @@ let topTenMovies = [
 ];
 
 //Create User
-app.post('/user', (req, res) => {
+app.post('/users', (req, res) => {
     const newUser = req.body;
 
     if (newUser.name) {
         newUser.id = uuid.v4();
         users.push(newUser);
+        res.status(201).json(newUser)
     } else {
         res.status(400).send('Users need names.')
     }
@@ -199,7 +200,7 @@ app.delete('/users/:id/:movieTitle', (req, res) => {
 })
 
 //Delete User 
-app.delete('users/:id', (req, res) => {
+app.delete('/users/:id', (req, res) => {
     const id = req.params.id;
     let user = users.find( user => user.id == id);
 
@@ -249,7 +250,7 @@ app.get('/movies/genre/:genreType', (req, res) => {
 })
 
 //Read Movie by Director
-app.get('/movies/directors/directorName', (req, res) => {
+app.get('/movies/directors/:directorName', (req, res) => {
     const directorName = req.params.directorName;
     const director = topTenMovies.find( movie => movie.director.directorName === directorName).director;
 

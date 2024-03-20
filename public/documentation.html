@@ -6,7 +6,148 @@
     <title>Movie API Documentation File</title>
 </head>
 <body>
-    <h1>Documentation File</h1>
-    <p>Movies, api, documentation</p>
+    <header>
+        <h1>Movie API Documentation File</h1>
+        <h4>Application Description:</h4>
+        <p>This web application provides users with access to information about different movies, directors, genres, and release dates <br>
+        Users will be able to create an account, sign in, update their information, and create a list of their top movies.</p>
+    </header>
+    <main>
+        <table class="table_doc">
+            <thead>
+                <tr>
+                    <th scope="col">Business Logic</th>
+                    <th scope="col">URL</th>
+                    <th scope="col">HTTP Method</th>
+                    <th scope="col">Request Body Format</th>
+                    <th scope="col">Respond Body Format</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Return a List of All movies</td>
+                    <td>/movies</td>
+                    <td>GET</td>
+                    <td>None</td>
+                    <td>A JSON object holding data about all movies</td>
+                </tr>
+                <tr>
+                    <td>Return data about a single movie by title</td>
+                    <td>/movies/[title]</td>
+                    <td>GET</td>
+                    <td>None</td>
+                    <td>A JSON object holding data about a single movie containing title, year, genre, director. Example:<br>
+                        <code>
+                            {
+                                title: 'Ex Machina',
+                                year: '2015',
+                                genre: {
+                                    genreType: 'Thriller',
+                                    genreDescription: 'Thrillers are characterized and defined by the moods they elicit, giving their audiences heightened feelings of suspense, excitement, surprise, anticipation and anxiety.'
+                                },
+                                director: {
+                                    directorName: 'Alex Garland',
+                                    directorBirth: 'May 26, 1970'
+                                }
+                            }
+                        </code>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Return data about a genre by genre type</td>
+                    <td>/movies/genre/[genreType]</td>
+                    <td>GET</td>
+                    <td>None</td>
+                    <td>A JSON object holding data about a single genre containing a description. Example:<br>
+                        <code>
+                            {
+                                genreType: 'Thriller',
+                                genreDescription: 'Thrillers are characterized and defined by the moods they elicit, giving their audiences heightened feelings of suspense, excitement, surprise, anticipation and anxiety.'
+                            }
+                        </code>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Return data about a director by name</td>
+                    <td>/movies/directors/[directorName]</td>
+                    <td>GET</td>
+                    <td>None</td>
+                    <td>A JSON object holding data about a single director containing director name and birth. Example:<br>
+                        <code>
+                            {
+                                directorName: 'Alex Garland',
+                                directorBirth: 'May 26, 1970'
+                            }
+                        </code>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Allow new users to create an account</td>
+                    <td>/users</td>
+                    <td>POST</td>
+                    <td>A JSON object holding data about a new user to add, structured like:<br>
+                        <code>
+                            {
+                                "name": "Doo",
+                                "topMovies": []
+                            }
+                        </code>
+                    </td>
+                    <td>A JSON object holding data about a  new user that was added, including a new ID. Example:<br>
+                        <code>
+                            {
+                                "name": "Doo",
+                                "topMovies": [],
+                                "id": "9834c98e-0b70-418f-84b4-09521c0833c9"
+                            }
+                        </code>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Allow current users to update their information</td>
+                    <td>/users/[id]</td>
+                    <td>PUT</td>
+                    <td>A JSON object holding data about the current user to be updated, structured like:<br>
+                        <code>
+                            {
+                                "name": "Doo",
+                                "topMovies": []
+                            }
+                        </code>
+                    </td>
+                    <td>A JSON object holding data about the updated user. Example:<br>
+                        <code>
+                            {
+                                "id": 1,
+                                "name": "Doo",
+                                "topMovies": []
+                            }
+                        </code>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Allow users to add a movie to their Top Movies list</td>
+                    <td>/users/[id]/[movieTitle]</td>
+                    <td>POST</td>
+                    <td>None</td>
+                    <td>Text message indicating whether the user added the movie successfully.</td>
+                </tr>
+                <tr>
+                    <td>Allow users to remove a movie from their Top Movies list</td>
+                    <td>/users/[id]/[movieTitle]</td>
+                    <td>DELETE</td>
+                    <td>None</td>
+                    <td>Text message indicating whether the user removed the movie from their Top Movies list successfully.</td>
+                </tr>
+                <tr>
+                    <td>Allow current users to deregister</td>
+                    <td>/users/[id]</td>
+                    <td>DELETE</td>
+                    <td>None</td>
+                    <td>Text message indicating whether the user was removed successfully.</td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
 </body>
 </html>
