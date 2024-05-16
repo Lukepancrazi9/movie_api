@@ -9,10 +9,11 @@
     <header>
         <h1>Movie API Documentation File</h1>
         <h4>Application Description:</h4>
-        <p>This web application provides users with access to information about different movies, directors, genres, and release dates <br>
-        Users will be able to create an account, sign in, update their information, and create a list of their top movies.</p>
+        <p>This web application provides users with access to information about different movies, directors, and genres. <br>
+        Users will be able to create an account, sign in, update their information, and create a list of their favorite movies.</p>
     </header>
     <main>
+        <h2>Movies</h2>
         <table class="table_doc">
             <thead>
                 <tr>
@@ -39,44 +40,136 @@
                     <td>A JSON object holding data about a single movie containing title, year, genre, director. Example:<br>
                         <code>
                             {
-                                title: 'Ex Machina',
-                                year: '2015',
-                                genre: {
-                                    genreType: 'Thriller',
-                                    genreDescription: 'Thrillers are characterized and defined by the moods they elicit, giving their audiences heightened feelings of suspense, excitement, surprise, anticipation and anxiety.'
+                                "_id": "662838c55955575564dfde62",
+                                "Title": "Prisoners",
+                                "Description": "When Keller Dover's daughter and her friend go missing, he takes matters into his own hands as the police pursue multiple leads and the pressure mounts.",
+                                "Genre": [
+                                    {
+                                        "_id": "66280ca95955575564dfde52",
+                                        "Name": "Thriller",
+                                        "Description": "Thrillers are characterized and defined by the moods they elicit, giving their audiences heightened feelings of suspense, excitement, surprise, anticipation and anxiety."
+                                    },
+                                    {
+                                        "_id": "66280fc75955575564dfde59",
+                                        "Name": "Mystery",
+                                        "Description": "Mystery is a fiction genre where the nature of an event, usually a murder or other crime, remains mysterious until the end of the story."
+                                    }
+                                ],
+                                "Director": {
+                                    "_id": "662804a25955575564dfde4e",
+                                    "Name": "Denis Villeneuve",
+                                    "Bio": "Denis Villeneuve is a Canadian filmmaker and has received seven Canadian Screen Awards as well as nominations for three Academy Awards, five BAFTA Awards, and two Golden Globe Awards."
                                 },
-                                director: {
-                                    directorName: 'Alex Garland',
-                                    directorBirth: 'May 26, 1970'
+                                "Featured": true
+                            }
+                        </code>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Return data about a movie or movies by genre name</td>
+                    <td>/movies/genre/[Name]</td>
+                    <td>GET</td>
+                    <td>None</td>
+                    <td>A JSON object holding data about a movie or movies Example:<br>
+                        <code>
+                            [
+                                {
+                                    "_id": "662838c55955575564dfde62",
+                                    "Title": "Prisoners",
+                                    "Description": "When Keller Dover's daughter and her friend go missing, he takes matters into his own hands as the police pursue multiple leads and the pressure mounts.",
+                                    "Genre": [
+                                        {
+                                            "_id": "66280ca95955575564dfde52",
+                                            "Name": "Thriller",
+                                            "Description": "Thrillers are characterized and defined by the moods they elicit, giving their audiences heightened feelings of suspense, excitement, surprise, anticipation and anxiety."
+                                        },
+                                        {
+                                            "_id": "66280fc75955575564dfde59",
+                                            "Name": "Mystery",
+                                            "Description": "Mystery is a fiction genre where the nature of an event, usually a murder or other crime, remains mysterious until the end of the story."
+                                        }
+                                    ],
+                                    "Director": {
+                                        "_id": "662804a25955575564dfde4e",
+                                        "Name": "Denis Villeneuve",
+                                        "Bio": "Denis Villeneuve is a Canadian filmmaker and has received seven Canadian Screen Awards as well as nominations for three Academy Awards, five BAFTA Awards, and two Golden Globe Awards."
+                                    },
+                                    "Featured": true
                                 }
-                            }
+                            ]
                         </code>
                     </td>
                 </tr>
                 <tr>
-                    <td>Return data about a genre by genre type</td>
-                    <td>/movies/genre/[genreType]</td>
+                    <td>Return data about a movie or movies by director name</td>
+                    <td>/movies/director/[Name]</td>
                     <td>GET</td>
                     <td>None</td>
-                    <td>A JSON object holding data about a single genre containing a description. Example:<br>
+                    <td>A JSON object holding data about a movie or movies Example:<br>
                         <code>
-                            {
-                                genreType: 'Thriller',
-                                genreDescription: 'Thrillers are characterized and defined by the moods they elicit, giving their audiences heightened feelings of suspense, excitement, surprise, anticipation and anxiety.'
-                            }
+                            [
+                                {
+                                    "_id": "662838c55955575564dfde62",
+                                    "Title": "Prisoners",
+                                    "Description": "When Keller Dover's daughter and her friend go missing, he takes matters into his own hands as the police pursue multiple leads and the pressure mounts.",
+                                    "Genre": [
+                                        {
+                                            "_id": "66280ca95955575564dfde52",
+                                            "Name": "Thriller",
+                                            "Description": "Thrillers are characterized and defined by the moods they elicit, giving their audiences heightened feelings of suspense, excitement, surprise, anticipation and anxiety."
+                                        },
+                                        {
+                                            "_id": "66280fc75955575564dfde59",
+                                            "Name": "Mystery",
+                                            "Description": "Mystery is a fiction genre where the nature of an event, usually a murder or other crime, remains mysterious until the end of the story."
+                                        }
+                                    ],
+                                    "Director": {
+                                        "_id": "662804a25955575564dfde4e",
+                                        "Name": "Denis Villeneuve",
+                                        "Bio": "Denis Villeneuve is a Canadian filmmaker and has received seven Canadian Screen Awards as well as nominations for three Academy Awards, five BAFTA Awards, and two Golden Globe Awards."
+                                    },
+                                    "Featured": true
+                                }
+                            ]
                         </code>
                     </td>
                 </tr>
+            </tbody>
+        </table>
+            <h2>Users</h2>
+        <table class="table_doc">
+            <thead>
                 <tr>
-                    <td>Return data about a director by name</td>
-                    <td>/movies/directors/[directorName]</td>
+                    <th scope="col">Business Logic</th>
+                    <th scope="col">URL</th>
+                    <th scope="col">HTTP Method</th>
+                    <th scope="col">Request Body Format</th>
+                    <th scope="col">Respond Body Format</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Return a List of All users</td>
+                    <td>/users</td>
                     <td>GET</td>
                     <td>None</td>
-                    <td>A JSON object holding data about a single director containing director name and birth. Example:<br>
+                    <td>A JSON object holding data about all users</td>
+                </tr>
+                <tr>
+                    <td>Return of a User by Username</td>
+                    <td>/users/[Username]</td>
+                    <td>GET</td>
+                    <td>None</td>
+                    <td>A JSON object holding data about a single user, structured like:<br>
                         <code>
                             {
-                                directorName: 'Alex Garland',
-                                directorBirth: 'May 26, 1970'
+                                "_id": "ObjectId",
+                                "Username": "String",
+                                "Password": "String",
+                                "Email": "String",
+                                "Favorites": ["ObjectId"],
+                                "Birthday": "Date"
                             }
                         </code>
                     </td>
@@ -88,63 +181,167 @@
                     <td>A JSON object holding data about a new user to add, structured like:<br>
                         <code>
                             {
-                                "name": "Doo",
-                                "topMovies": []
+                                "Username": "String",
+                                "Password": "String",
+                                "Email": "String",
+                                "Birthday": "Date"
                             }
                         </code>
                     </td>
                     <td>A JSON object holding data about a  new user that was added, including a new ID. Example:<br>
                         <code>
                             {
-                                "name": "Doo",
-                                "topMovies": [],
-                                "id": "9834c98e-0b70-418f-84b4-09521c0833c9"
+                                "_id": "ObjectId",
+                                "Username": "String",
+                                "Password": "String",
+                                "Email": "String",
+                                "Birthday": "Date",
                             }
                         </code>
                     </td>
                 </tr>
                 <tr>
                     <td>Allow current users to update their information</td>
-                    <td>/users/[id]</td>
+                    <td>/users/[Username]</td>
                     <td>PUT</td>
                     <td>A JSON object holding data about the current user to be updated, structured like:<br>
                         <code>
                             {
-                                "name": "Doo",
-                                "topMovies": []
+                                "Username": "String",
+                                "Password": "String",
+                                "Email": "String",
+                                "Birthday": "Date"
                             }
                         </code>
                     </td>
                     <td>A JSON object holding data about the updated user. Example:<br>
                         <code>
                             {
-                                "id": 1,
-                                "name": "Doo",
-                                "topMovies": []
-                            }
+                                "_id": "ObjectId",
+                                "Username": "String",
+                                "Password": "String",
+                                "Email": "String",
+                                "Birthday": "Date"
+                            }                            
                         </code>
                     </td>
                 </tr>
                 <tr>
-                    <td>Allow users to add a movie to their Top Movies list</td>
-                    <td>/users/[id]/[movieTitle]</td>
+                    <td>Allow users to add a movie to their Favorites</td>
+                    <td>/users/[Username]/movies/[MovieID]</td>
                     <td>POST</td>
                     <td>None</td>
-                    <td>Text message indicating whether the user added the movie successfully.</td>
+                    <td>A JSON object holding data about the updated user. Example:<br>
+                        <code>
+                            {
+                                "_id": "ObjectId",
+                                "Username": "String",
+                                "Password": "String",
+                                "Email": "String",
+                                "Birthday": "Date",
+                                "Favorites": ["ObjectId"]
+                            }                            
+                        </code>
+                    </td>
                 </tr>
                 <tr>
-                    <td>Allow users to remove a movie from their Top Movies list</td>
-                    <td>/users/[id]/[movieTitle]</td>
+                    <td>Allow users to remove a movie from Favorites</td>
+                    <td>/users/[Username]/movies/[MovieID]</td>
                     <td>DELETE</td>
                     <td>None</td>
-                    <td>Text message indicating whether the user removed the movie from their Top Movies list successfully.</td>
+                    <td>A JSON object holding data about the updated user. Example:<br>
+                        <code>
+                            {
+                                "_id": "ObjectId",
+                                "Username": "String",
+                                "Password": "String",
+                                "Email": "String",
+                                "Birthday": "Date",
+                                "Favorites": ["ObjectId"]
+                            }                            
+                        </code>
+                    </td>
                 </tr>
                 <tr>
                     <td>Allow current users to deregister</td>
-                    <td>/users/[id]</td>
+                    <td>/users/[Username]</td>
                     <td>DELETE</td>
                     <td>None</td>
                     <td>Text message indicating whether the user was removed successfully.</td>
+                </tr>
+            </tbody>
+        </table>
+        <h2>Genres</h2>
+        <table class="table_doc">
+            <thead>
+                <tr>
+                    <th scope="col">Business Logic</th>
+                    <th scope="col">URL</th>
+                    <th scope="col">HTTP Method</th>
+                    <th scope="col">Request Body Format</th>
+                    <th scope="col">Respond Body Format</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Return a List of All genres</td>
+                    <td>/genres</td>
+                    <td>GET</td>
+                    <td>None</td>
+                    <td>A JSON object holding data about all genres</td>
+                </tr>
+                <tr>
+                    <td>Return data about a genre by name</td>
+                    <td>/genres/[Name]</td>
+                    <td>GET</td>
+                    <td>None</td>
+                    <td>A JSON object holding data about a single genre containing genre name and description. Example:<br>
+                        <code>
+                            {
+                                "_id": "66280eec5955575564dfde57",
+                                "Name": "Fantasy",
+                                "Description": "Fantasy is a genre of speculative fiction involving magical elements, typically set in a fictional universe and usually inspired by mythology or folklore."
+                            }
+                        </code>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h2>Directors</h2>
+        <table class="table_doc">
+            <thead>
+                <tr>
+                    <th scope="col">Business Logic</th>
+                    <th scope="col">URL</th>
+                    <th scope="col">HTTP Method</th>
+                    <th scope="col">Request Body Format</th>
+                    <th scope="col">Respond Body Format</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Return a List of All directors</td>
+                    <td>/directors</td>
+                    <td>GET</td>
+                    <td>None</td>
+                    <td>A JSON object holding data about all directors</td>
+                </tr>
+                <tr>
+                    <td>Return data about a director by name</td>
+                    <td>/movies/directors/[Name]</td>
+                    <td>GET</td>
+                    <td>None</td>
+                    <td>A JSON object holding data about a single director containing director name, bio, birth, and death. Example:<br>
+                        <code>
+                            {
+                                "_id": "662806845955575564dfde4f",
+                                "Name": "David Fincher",
+                                "Bio": "David Fincher is an American film director who is best known for psychological thrillers, and has received numerous accolades including three nominations for Academy Awards for Best Director.",
+                                "Birth": "1962",
+                                "Death": null
+                            }
+                        </code>
+                    </td>
                 </tr>
             </tbody>
         </table>
