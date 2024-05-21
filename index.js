@@ -7,6 +7,9 @@ const Models = require('./models.js');
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
+let auth = require('./auth')(app);
+const passport = require('passorpt');
+require('./passport');
 app.use(morgan('common'));
 
 const Movies = Models.Movie;
@@ -161,7 +164,7 @@ app.get('/', (req, res) => {
 
 //Info on Movies
 //Read All Movies
-app.get('/movies', async (req, res) => {
+app.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Movies.find()
     .populate('Director', 'Name Bio')
     .populate('Genre', 'Name Description')
