@@ -207,7 +207,7 @@ app.get('/', (req, res) => {
 
 //Info on Movies
 //Read All Movies
-app.get('/movies', async (req, res) => {
+app.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Movies.find()
     .populate('Director', 'Name Bio')
     .populate('Genre', 'Name Description')
