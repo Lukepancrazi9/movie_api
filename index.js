@@ -18,17 +18,16 @@ app.use(cors());
 
 let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'http://localhost:1234'];
 
-app.use(cors());
-//     {
-//   origin: (origin, callback) => {
-//     if(!origin) return callback(null, true);
-//     if(allowedOrigins.indexOf(origin) === -1){ // If a specific origin isn’t found on the list of allowed origins
-//       let message = 'The CORS policy for this application doesn’t allow access from origin ' + origin;
-//       return callback(new Error(message ), false);
-//     }
-//     return callback(null, true);
-//   }
-// }));
+app.use(cors({
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) === -1) { // If a specific origin isn’t found on the list of allowed origins
+        let message = 'The CORS policy for this application doesn’t allow access from origin ' + origin;
+        return callback(new Error(message), false);
+      }
+      return callback(null, true);
+    }
+  }));
 
 let auth = require('./auth')(app);
 const passport = require('passport');
@@ -213,6 +212,23 @@ app.get('/movies', passport.authenticate('jwt', { session: false }), async (req,
     .populate('Genre', 'Name Description')
     .then((movies) => {
         res.status(201).json(movies);
+    })
+    .catch((err) => {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
+    });
+});
+
+// Read a Movie by ID
+app.get('/movies/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    await Movies.findById(req.params.MovieID)
+    .populate('Director', 'Name Bio')
+    .populate('Genre', 'Name Description')
+    .then((movie) => {
+        if (!movie) {
+            return res.status(404).send('Movie not found');
+        }
+        res.json(movie);
     })
     .catch((err) => {
         console.error(err);
