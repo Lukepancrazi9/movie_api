@@ -13,6 +13,7 @@ const Genres = Models.Genre;
 const Directors = Models.Director;
 const jwt = require('jsonwebtoken');
 const jwtSecret = 'your_jwt_secret';
+const bcrypt = require('bcrypt');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
 app.use(morgan('common'));
@@ -130,34 +131,47 @@ app.get('/users/:Username', passport.authenticate('jwt', { session: false }), as
     Birthday: Date
 }*/
 app.put('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
-    //CONDITION TO CHECK ADDED HERE
-    if(req.user.Username !== req.params.Username){
+    // Check if the user is authorized to update this account
+    if (req.user.Username !== req.params.Username) {
         return res.status(400).send('Permission denied');
     }
-    //CONDITION ENDS
-    await Users.findOneAndUpdate({ Username: req.params.Username }, { $set:
-    {
+
+    let updatedFields = {
         Username: req.body.Username,
-        Password: req.body.Password,
         Email: req.body.Email,
         Birthday: req.body.Birthday
-    }
-  },
-  { new:true }) // This line makes sure that the updated document is returned
-  .then((updatedUser) => {
-    const token = jwt.sign({ Username: updatedUser.Username }, jwtSecret, {
-        subject: updatedUser.Username,
-        expiresIn: '7d',
-        algorithm: 'HS256'
-    });
+    };
 
-    // Return the updated user and the new token
-    res.json({ user: updatedUser, token: token });
-  })
-  .catch((err) => {
-    console.error(err);
-    res.status(500).send('Error: ' + err);
-  })
+    // If a password is provided, hash it before updating
+    if (req.body.Password) {
+        try {
+            const hashedPassword = await bcrypt.hash(req.body.Password, 10);
+            updatedFields.Password = hashedPassword;
+        } catch (err) {
+            console.error('Error hashing password:', err);
+            return res.status(500).send('Error hashing password.');
+        }
+    }
+
+    Users.findOneAndUpdate(
+        { Username: req.params.Username },
+        { $set: updatedFields },
+        { new: true }
+    )
+    .then(updatedUser => {
+        const token = jwt.sign({ Username: updatedUser.Username }, jwtSecret, {
+            subject: updatedUser.Username,
+            expiresIn: '7d',
+            algorithm: 'HS256'
+        });
+
+        // Return the updated user and the new token
+        res.json({ user: updatedUser, token: token });
+    })
+    .catch(err => {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
+    });
 });
 
 //Add a Movie to User's Favorites
