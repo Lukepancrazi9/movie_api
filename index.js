@@ -11,6 +11,8 @@ const Movies = Models.Movie;
 const Users = Models.User;
 const Genres = Models.Genre;
 const Directors = Models.Director;
+const jwt = require('jsonwebtoken');
+const jwtSecret = 'your_jwt_secret';
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
 app.use(morgan('common'));
@@ -143,7 +145,14 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false }), as
   },
   { new:true }) // This line makes sure that the updated document is returned
   .then((updatedUser) => {
-    res.json(updatedUser);
+    const token = jwt.sign({ Username: updatedUser.Username }, jwtSecret, {
+        subject: updatedUser.Username,
+        expiresIn: '7d',
+        algorithm: 'HS256'
+    });
+
+    // Return the updated user and the new token
+    res.json({ user: updatedUser, token: token });
   })
   .catch((err) => {
     console.error(err);
