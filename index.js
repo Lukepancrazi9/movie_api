@@ -135,7 +135,7 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false }), as
     //CONDITION ENDS
     await Users.findOneAndUpdate({ Username: req.params.Username }, { $set:
     {
-        Username: req.bodyUsername,
+        Username: req.body.Username,
         Password: req.body.Password,
         Email: req.body.Email,
         Birthday: req.body.Birthday
@@ -183,7 +183,7 @@ app.delete('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { se
 
 //Delete User by Username
 app.delete('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
-    await Users.findOneAndUpdate({ Username: req.params.Username })
+    await Users.findOneAndDelete({ Username: req.params.Username })
     .then((user) => {
         if (!user) {
             res.status(400).send(req.params.Username + ' was not found');
