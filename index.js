@@ -19,18 +19,26 @@ app.use(bodyParser.urlencoded({ extended: true}));
 app.use(morgan('common'));
 app.use(cors());
 
-let allowedOrigins = ['http://localhost:8080', 'http://localhost:1234', 'https://crazimovies.netlify.app', 'http://localhost:4200'];
+// let allowedOrigins = ['http://localhost:8080', 'http://localhost:1234', 'https://crazimovies.netlify.app', 'http://localhost:4200'];
 
-app.use(cors({
-    origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
-    credentials: true,
-  }));
+const corsOptions = {
+    origin: ['http://localhost:8080', 'http://localhost:1234', 'https://crazimovies.netlify.app', 'http://localhost:4200'], // Add your frontend URLs here
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true
+};
+
+app.use(cors(corsOptions));
+
+// app.use(cors({
+//     origin: (origin, callback) => {
+//       if (!origin || allowedOrigins.includes(origin)) {
+//         callback(null, true);
+//       } else {
+//         callback(new Error('Not allowed by CORS'));
+//       }
+//     },
+//     credentials: true,
+//   }));
 
 let auth = require('./auth')(app);
 const passport = require('passport');
