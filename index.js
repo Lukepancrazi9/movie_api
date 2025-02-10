@@ -19,17 +19,17 @@ app.use(bodyParser.urlencoded({ extended: true}));
 app.use(morgan('common'));
 app.use(cors());
 
-let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'http://localhost:1234', 'https://crazimovies.netlify.app', 'http://localhost:4200'];
+let allowedOrigins = ['http://localhost:8080', 'http://localhost:1234', 'https://crazimovies.netlify.app', 'http://localhost:4200'];
 
 app.use(cors({
     origin: (origin, callback) => {
-      if (!origin) return callback(null, true);
-      if (allowedOrigins.indexOf(origin) === -1) { // If a specific origin isn’t found on the list of allowed origins
-        let message = 'The CORS policy for this application doesn’t allow access from origin ' + origin;
-        return callback(new Error(message), false);
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
       }
-      return callback(null, true);
-    }
+    },
+    credentials: true,
   }));
 
 let auth = require('./auth')(app);
