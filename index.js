@@ -22,7 +22,7 @@ app.use(cors());
 // let allowedOrigins = ['http://localhost:8080', 'http://localhost:1234', 'https://crazimovies.netlify.app', 'http://localhost:4200'];
 
 const corsOptions = {
-    origin: ['http://localhost:8080', 'http://localhost:1234', 'https://crazimovies.netlify.app', 'http://localhost:4200', 'https://crazi-movies-5042ca35c2c0.herokuapp.com'], // Add your frontend URLs here
+    origin: ['http://localhost:8080', 'http://localhost:1234', 'https://crazimovies.netlify.app', 'http://localhost:4200/', 'https://crazi-movies-5042ca35c2c0.herokuapp.com'], // Add your frontend URLs here
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
     optionsSuccessStatus: 204,
