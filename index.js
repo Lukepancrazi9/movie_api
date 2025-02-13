@@ -185,7 +185,7 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false }), as
 });
 
 //Add a Movie to User's Favorites
-app.post('/users/:Username/:movies/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Users.findOneAndUpdate({ Username: req.params.Username }, {
         $push: { Favorites: req.params.MovieID }
     },
